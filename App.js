@@ -1,13 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Platform } from 'react-native';
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>React Native App</Text>
+        </View>
+        <ScrollView contentContainerStyle={styles.repoList}>
+          <View style={styles.repo} />
+          <View style={styles.repo} />
+          <View style={styles.repo} />
+          <View style={styles.repo} />
+          <View style={styles.repo} />
+          <View style={styles.repo} />
+        </ScrollView>
       </View>
     );
   }
@@ -16,8 +24,19 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    backgroundColor: '#333',
+  },
+
+  header: {
+    height: Platform.OS === 'ios' ? 70 : 50,
+    paddingTop: Platform.OS === 'ios' ? 20 : 0,
+    backgroundColor: '#FFF',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  headerText: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
