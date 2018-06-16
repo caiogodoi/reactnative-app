@@ -5,10 +5,13 @@ export default class Repo extends Component {
   render() {
     return (
       <View style={styles.repo}>
-        <Image style={styles.repoImage} source={{ uri: '' }} />
+        <Image
+          style={styles.repoImage}
+          source={{ uri: this.props.data.thumbnail }}
+        />
         <View style={styles.repoInfo}>
-          <Text style={styles.repoTitle}>caio.godoi</Text>
-          <Text style={styles.repoAuthor}>caiogodoi</Text>
+          <Text style={styles.repoTitle}>{this.props.data.title}</Text>
+          <Text style={styles.repoAuthor}>{this.props.data.author}</Text>
         </View>
       </View>
     );
