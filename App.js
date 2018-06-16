@@ -1,7 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Platform } from 'react-native';
+import Repo from './components/Repo';
 
 export default class App extends React.Component {
+  state = {
+    repos: [
+      {
+        id: 1,
+        thumbnail: '',
+        title: 'react-native app',
+        author: 'caiogodoi',
+      },
+      {
+        id: 2,
+        thumbnail: '',
+        title: 'react app',
+        author: 'caio',
+      },
+    ],
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -9,12 +27,7 @@ export default class App extends React.Component {
           <Text style={styles.headerText}>React Native App</Text>
         </View>
         <ScrollView contentContainerStyle={styles.repoList}>
-          <View style={styles.repo} />
-          <View style={styles.repo} />
-          <View style={styles.repo} />
-          <View style={styles.repo} />
-          <View style={styles.repo} />
-          <View style={styles.repo} />
+          {this.state.repos.map(repo => <Repo key={repo.id} />)};
         </ScrollView>
       </View>
     );
@@ -42,13 +55,5 @@ const styles = StyleSheet.create({
 
   repoList: {
     padding: 20,
-  },
-
-  repo: {
-    padding: 20,
-    backgroundColor: '#FFF',
-    height: 120,
-    marginBottom: 20,
-    borderRadius: 5,
   },
 });
