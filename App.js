@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Repo from './components/Repo';
+import NewRepoModal from './components/NewRepoModal';
 
 export default class App extends React.Component {
   state = {
@@ -39,6 +40,7 @@ export default class App extends React.Component {
         <ScrollView contentContainerStyle={styles.repoList}>
           {this.state.repos.map(repo => <Repo key={repo.id} data={repo} />)};
         </ScrollView>
+        <NewRepoModal />
       </View>
     );
   }
