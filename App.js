@@ -12,6 +12,7 @@ import NewRepoModal from './components/NewRepoModal';
 
 export default class App extends React.Component {
   state = {
+    visibility: false,
     repos: [
       {
         id: 1,
@@ -28,19 +29,40 @@ export default class App extends React.Component {
     ],
   };
 
+  onCancel = () => {
+    this.setState({ visibility: false });
+  };
+
+  onSubmit = text => {
+    const repository = {
+      id: Math.random(),
+      title: text,
+      author: text,
+      thumbnail: '',
+    };
+    this.setState({
+      visibility: false,
+      repos: [...this.state.repos, repository],
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>React Native App</Text>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => this.setState({ visibility: true })}>
             <Text style={styles.headerButton}>+</Text>
           </TouchableOpacity>
         </View>
         <ScrollView contentContainerStyle={styles.repoList}>
           {this.state.repos.map(repo => <Repo key={repo.id} data={repo} />)};
         </ScrollView>
-        <NewRepoModal />
+        <NewRepoModal
+          onCancel={this.onCancel}
+          onSubmit={this.onSubmit}
+          visible={this.state.visibility}
+        />
       </View>
     );
   }
