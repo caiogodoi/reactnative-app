@@ -9,9 +9,19 @@ import {
 } from 'react-native';
 
 export default class NewRepoModal extends Component {
+  state = {
+    modalText: '',
+  };
+
+  onChangeText = (modalText) => this.setState({ modalText });
+
   render() {
     return (
-      <Modal animationType="fade" transparent={true} visible={true}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={this.props.visible}
+      >
         <View style={styles.modalContainer}>
           <View style={styles.boxContainer}>
             <Text style={styles.boxTitle}>Adicionar repositório</Text>
@@ -21,19 +31,21 @@ export default class NewRepoModal extends Component {
               style={styles.boxInput}
               underlineColorAndroid="rgba(0,0,0,0)"
               placeholder="organização/repositório"
+              value={this.state.modalText}
+              onChangeText={this.onChangeText}
             />
 
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={[styles.button, styles.cancelButton]}
-                onPress={() => {}}
+                onPress={this.props.onCancel}
               >
                 <Text style={styles.buttonText}>Cancelar</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[styles.button, styles.submitButton]}
-                onPress={() => {}}
+                onPress={() => this.props.onSubmit(this.state.modalText)}
               >
                 <Text style={styles.buttonText}>Adicionar</Text>
               </TouchableOpacity>
