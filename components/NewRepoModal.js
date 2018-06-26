@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Modal,
   TextInput,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 export default class NewRepoModal extends Component {
   state = {
@@ -17,42 +17,36 @@ export default class NewRepoModal extends Component {
 
   render() {
     return (
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={this.props.visible}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.boxContainer}>
-            <Text style={styles.boxTitle}>Adicionar repositório</Text>
-            <TextInput
-              autoFocus
-              autoCapitalize="none"
-              style={styles.boxInput}
-              underlineColorAndroid="rgba(0,0,0,0)"
-              placeholder="organização/repositório"
-              value={this.state.modalText}
-              onChangeText={this.onChangeText}
-            />
+      <View style={styles.modalContainer}>
+        <View style={styles.boxContainer}>
+          <Text style={styles.boxTitle}>Adicionar repositório</Text>
+          <TextInput
+            autoFocus
+            autoCapitalize="none"
+            style={styles.boxInput}
+            underlineColorAndroid="rgba(0,0,0,0)"
+            placeholder="organização/repositório"
+            value={this.state.modalText}
+            onChangeText={this.onChangeText}
+          />
 
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={[styles.button, styles.cancelButton]}
-                onPress={this.props.onCancel}
-              >
-                <Text style={styles.buttonText}>Cancelar</Text>
-              </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, styles.cancelButton]}
+              onPress={Actions.pop}
+            >
+              <Text style={styles.buttonText}>Cancelar</Text>
+            </TouchableOpacity>
 
-              <TouchableOpacity
-                style={[styles.button, styles.submitButton]}
-                onPress={() => this.props.onSubmit(this.state.modalText)}
-              >
-                <Text style={styles.buttonText}>Adicionar</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              style={[styles.button, styles.submitButton]}
+              onPress={() => this.props.onSubmit(this.state.modalText)}
+            >
+              <Text style={styles.buttonText}>Adicionar</Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </View>
     );
   }
 }
@@ -60,6 +54,7 @@ export default class NewRepoModal extends Component {
 const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
