@@ -6,9 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import { AddAction } from '../actions'
 
-export default class NewRepoModal extends Component {
+class NewRepoModal extends Component {
   state = {
     modalText: '',
   };
@@ -40,7 +42,7 @@ export default class NewRepoModal extends Component {
 
             <TouchableOpacity
               style={[styles.button, styles.submitButton]}
-              onPress={() => this.props.onSubmit(this.state.modalText)}
+              onPress={() => this.props.AddItem(this.state.modalText)}
             >
               <Text style={styles.buttonText}>Adicionar</Text>
             </TouchableOpacity>
@@ -50,6 +52,18 @@ export default class NewRepoModal extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    repos: state.AddRepo,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  addItemAction: modalText => dispatch(AddRepoAction(modalText)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewRepoModal);
 
 const styles = StyleSheet.create({
   modalContainer: {
