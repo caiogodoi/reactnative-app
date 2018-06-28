@@ -8,12 +8,19 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { AddAction } from '../actions'
+import { AddItemAction } from '../actions'
 
 class NewRepoModal extends Component {
   state = {
     modalText: '',
   };
+
+  gettingApi = async () => {
+    const call = await fetch(`http://api.github.com/repos/${this.state.modalText}`);
+    const response = await call.json();
+    this.props.addItemAction(this.state.modalText, response);
+    Actions.pop()
+  }
 
   onChangeText = (modalText) => this.setState({ modalText });
 
@@ -42,7 +49,7 @@ class NewRepoModal extends Component {
 
             <TouchableOpacity
               style={[styles.button, styles.submitButton]}
-              onPress={() => this.props.AddItem(this.state.modalText)}
+              onPress={this.gettingApi}
             >
               <Text style={styles.buttonText}>Adicionar</Text>
             </TouchableOpacity>
@@ -53,17 +60,11 @@ class NewRepoModal extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    repos: state.AddRepo,
-  };
-};
-
 const mapDispatchToProps = dispatch => ({
-  addItemAction: modalText => dispatch(AddRepoAction(modalText)),
+  addItemAction: (modalText, response) => dispatch(AddItemAction(modalText, response)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewRepoModal);
+export default connect(null, mapDispatchToProps)(NewRepoModal);
 
 const styles = StyleSheet.create({
   modalContainer: {
