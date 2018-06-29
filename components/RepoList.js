@@ -7,6 +7,7 @@ import {
   View,
   ScrollView,
   Platform,
+  AsyncStorage,
   TouchableOpacity,
 } from 'react-native';
 import {
@@ -19,6 +20,15 @@ class RepoList extends React.Component {
     visibility: false,
     repos: [],
   };
+
+  async UNSAFE_componentDidMount() {
+    const repos = JSON.parse(await AsyncStorage.getItem('@reactnative-app:repositories')) || [];
+    this.setState({ repos });
+  }
+
+  localStorage = async () => {
+    await AsyncStorage.setItem('@reactnative-app:repositories', JSON.stringify(this.state.repos));
+  }
 
   render() {
     return (
