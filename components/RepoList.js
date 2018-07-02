@@ -16,10 +16,6 @@ import {
 import Repo from './Repo';
 
 class RepoList extends React.Component {
-  state = {
-    visibility: false,
-    repos: [],
-  };
 
   async UNSAFE_componentDidMount() {
     const repos = JSON.parse(await AsyncStorage.getItem('@reactnative-app:repositories')) || [];
@@ -49,7 +45,7 @@ class RepoList extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    repos: state.AddRepo,
+    repos: state.repos,
   };
 };
 

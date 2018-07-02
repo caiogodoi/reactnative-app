@@ -1,7 +1,6 @@
-export function AddItemAction(modalText, response) {
+export function addRepository(formText, response) {
   return {
-    type: 'ADD_ITEM',
-    modalText,
-    response,
+    type: 'ADD_REPOSITORY',
+    payload: { formText, ...response }
   }
 }
