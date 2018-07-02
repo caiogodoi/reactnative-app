@@ -8,25 +8,30 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { AddItemAction } from '../actions'
+import { addRepository } from '../actions'
 
-class NewRepoModal extends Component {
+class NewRepoForm extends Component {
   state = {
-    modalText: '',
+    formText: '',
   };
 
   gettingApi = async () => {
-    const call = await fetch(`http://api.github.com/repos/${this.state.modalText}`);
+    const call = await fetch(`http://api.github.com/repos/${this.state.formText}`);
     const response = await call.json();
-    this.props.addItemAction(this.state.modalText, response);
-    Actions.pop()
+    return response;
   }
 
-  onChangeText = (modalText) => this.setState({ modalText });
+  handlePress = async () => {
+    const response = await this.gettingApi();
+    this.props.addRepository(this.state.formText, response);
+    Actions.pop();
+  }
+
+  onChangeText = (formText) => this.setState({ formText });
 
   render() {
     return (
-      <View style={styles.modalContainer}>
+      <View style={styles.formContainer}>
         <View style={styles.boxContainer}>
           <Text style={styles.boxTitle}>Adicionar repositório</Text>
           <TextInput
@@ -35,7 +40,7 @@ class NewRepoModal extends Component {
             style={styles.boxInput}
             underlineColorAndroid="rgba(0,0,0,0)"
             placeholder="organização/repositório"
-            value={this.state.modalText}
+            value={this.state.formText}
             onChangeText={this.onChangeText}
           />
 
@@ -49,7 +54,7 @@ class NewRepoModal extends Component {
 
             <TouchableOpacity
               style={[styles.button, styles.submitButton]}
-              onPress={this.gettingApi}
+              onPress={this.handlePress}
             >
               <Text style={styles.buttonText}>Adicionar</Text>
             </TouchableOpacity>
@@ -61,13 +66,13 @@ class NewRepoModal extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  addItemAction: (modalText, response) => dispatch(AddItemAction(modalText, response)),
+  addRepository: (formText, response) => dispatch(addRepository(formText, response)),
 });
 
-export default connect(null, mapDispatchToProps)(NewRepoModal);
+export default connect(null, mapDispatchToProps)(NewRepoForm);
 
 const styles = StyleSheet.create({
-  modalContainer: {
+  formContainer: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
