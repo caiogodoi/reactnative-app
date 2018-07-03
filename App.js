@@ -4,15 +4,20 @@ import {
   Router,
   Stack,
 } from 'react-native-router-flux';
-import NewRepoModal from './components/NewRepoModal';
+import NewRepoForm from './components/NewRepoForm';
 import RepoList from './components/RepoList'
+import reducers from './reducers';
+import { createStore } from 'redux';
+
+
+const store = createStore(reducers);
 
 const RouterFlux = () => {
   return (
-    <Router>
+    <Router store={store}>
       <Stack key="root">
         <Scene key="home" component={RepoList} title="Lista de Repositórios" initial />
-        <Scene key="addrepo" component={NewRepoModal} title="Adicionar Repositório" />
+        <Scene key="addrepo" component={NewRepoForm} title="Adicionar Repositório" />
       </Stack>
     </Router>
   );
