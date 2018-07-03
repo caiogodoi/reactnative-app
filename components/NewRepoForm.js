@@ -8,28 +8,24 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { addRepository } from '../actions'
+import { addRepository, setInput } from '../actions'
 
 class NewRepoForm extends Component {
-  state = {
-    formText: '',
-  };
 
   gettingApi = async () => {
-    const call = await fetch(`http://api.github.com/repos/${this.state.formText}`);
+    const call = await fetch(`http://api.github.com/repos/${this.props.repoName}`);
     const response = await call.json();
     return response;
   }
 
   handlePress = async () => {
     const response = await this.gettingApi();
-    this.props.addRepository(this.state.formText, response);
+    this.props.addRepository(response);
     Actions.pop();
   }
 
-  onChangeText = (formText) => this.setState({ formText });
-
   render() {
+    console.log('teste', this.props)
     return (
       <View style={styles.formContainer}>
         <View style={styles.boxContainer}>
@@ -40,8 +36,8 @@ class NewRepoForm extends Component {
             style={styles.boxInput}
             underlineColorAndroid="rgba(0,0,0,0)"
             placeholder="organização/repositório"
-            value={this.state.formText}
-            onChangeText={this.onChangeText}
+            value={this.props.repoName}
+            onChangeText={this.props.setInput}
           />
 
           <View style={styles.buttonContainer}>
@@ -65,11 +61,16 @@ class NewRepoForm extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  repoName: state.repoForm.repoName.value,
+})
+
 const mapDispatchToProps = dispatch => ({
-  addRepository: (formText, response) => dispatch(addRepository(formText, response)),
+  addRepository: (response) => dispatch(addRepository(response)),
+  setInput: (repoName) => dispatch(setInput(repoName)),
 });
 
-export default connect(null, mapDispatchToProps)(NewRepoForm);
+export default connect(mapStateToProps, mapDispatchToProps)(NewRepoForm);
 
 const styles = StyleSheet.create({
   formContainer: {

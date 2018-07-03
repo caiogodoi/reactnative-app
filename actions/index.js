@@ -1,6 +1,13 @@
-export function addRepository(formText, response) {
+export function addRepository(response) {
   return {
     type: 'ADD_REPOSITORY',
-    payload: { formText, ...response }
+    payload: { ...response }
+  }
+}
+
+export function setInput(value) {
+  return {
+    type: 'repoForm/SET_INPUT',
+    payload: { value }
   }
 }
